@@ -22,6 +22,7 @@ CORS(app, resources=r'/api/*', headers='Origin, X-Requested-With, Content-Type, 
 #@app.route('/')
 @app.route('/api/learn/nodeList/<keyword>')
 @app.route('/api/learn/node/<keyword>', methods=['GET', 'POST'])
+@app.route('/api/learn/qid/<id>', methods=['GET', 'POST'])
 @app.route('/api/learn/neighbors/<keyword>')
 @app.route('/api/learn/path/<keyword>')
 @app.route('/api/23/<sourceId>/neighbors/<direction>.jgraph')
@@ -83,12 +84,47 @@ def getNeighbors(db,keyword):
 	return nodeJSON
 
 
+def getNeighbors_by_id(db,id):
+	# TODO 
+	# separete function fulltext 
+
+	q = "MATCH (n) WHERE n.name =~'(?i).*%s*.' Return n" % keyword
+	params = {}
+	querySquenceObject = db.query(q, params=params)	
+	x = getSearchList(querySquenceObject)
+	q = "MATCH (n) WHERE n.name =~'(?i).*%s*.' Return n" % keyword	
+	#Blank list to hold the JSON
+	nodeJSON = []
+	# Iterating over the resposes from the graph db
+	# NOTE:Excluding the ROOT NODE from RETURN!!!!
+	for node in querySquenceObject[0:]:
+		n = node.pop()
+		data = n.get('data')
+		name = data.get('name')
+		#name = name.encode('utf8')	
+		sourceId = data.get('id')
+		#sourceId = str(sourceId)
+		#sourceId = sourceId.encode('utf8')	
+		description = data.get('description')
+		self = n.get('self')
+		print self
+		self = urlparse(self)
+		uid = doRegEX(self)
+		#uid = str(uid)
+		#uid = uid.encode('utf8')	
+		if (sourceId):
+			nodeJSON.append(createNodeJSON(uid, sourceId, name, 'description'))
+		else:
+			print 'node uid', uid ,' is missing sourceId', 
+	return nodeJSON
+
+
 
 def createNodeJSON(uid, sourceId, name, description):	
 	JSONObject = {
-		'name': name,
+		'name' : name,
 		'uid' : uid,
-		'sourceId' : sourceId,
+		'id' : sourceId,
 		'description' : description
 	}
 	return JSONObject

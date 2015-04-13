@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<title>Search form with AngualrJS</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+	<script src="http://code.angularjs.org/angular-1.0.0.min.js"></script>
+	<script src="search.js"></script>
+</head>
+
+<body>
+
+
+
+
+<div ng-controller="SearchCtrl">
+
+<ul>
+    <li>{{stringValue}}</li>
+    <li>{{objectValue}}</li>
+</ul>
+
+
+	<form class="well form-search">
+		<label>Search:</label>
+		<input type="text" ng-model="keywords" class="input-medium search-query" placeholder="Keywords...">
+		<button type="submit" class="btn" ng-click="search()">Search</button>
+		<p class="help-block">Try for example: "php" or "angularjs" or "asdfg"</p>		
+    </form>
+<pre ng-model="rawResult">
+{{rawResult}}
+</pre>
+<ul ng-repeat="node in results"> {{result}}
+<li> 
+
+
+<h3 addcolumn ng-controller="GetChildCtrl">{{node.name}}</h3>
+<h4>{{node.sourceId}}</h4>
+
+<div ng-controller="modelController" model="{{node.name}}">
+  <a href="{{url}}">Click here</a>
+</div>
+
+
+
+
+
+</li>
+
+</ul>
+
+</div>
+
+<section>
+    <addcolumn ng-controller="GetChildCtrl"></addcolumn>
+    <div id="space-for-buttons"></div>
+</section>
+
+
+
+
+
+
+
+
+
+</body>
+
+
+<script>
+
+var app = angular.module('myApp',[]);
+
+app.service('sharedNodes', function() {
+    var stringValue = 'test string value';
+    var objectValue = {
+        data: 'test object value'
+    };
+    
+    return {
+        getString: function() {
+            return stringValue;
+        },
+        setString: function(value) {
+            stringValue = value;
+        },
+        getObject: function() {
+            return objectValue;
+        }
+    }
+});
+
+app.controller('SearchCtrl',function($scope, $http, sharedNodes) {
+	$scope.url = 'http://localhost:5000/api/learn/node/'; // The url of our search
+		
+	// The function that will be executed on button click (ng-click="search()")
+
+
+
+	$scope.search = function() {
+		//var parent = typeof(parent) != 'undefined' ? parent : $scope.keywords;
+		q = $scope.keywords;
+		// TODO: fix $scope.url+$scope.keywords ..
+		// Create the http get request
+		// the data holds the keywords
+		// The request is a JSON request.
+
+		// FROM SERVICE
+		// PARENT NODE
+		$scope.stringValue = sharedNodes.setString(q);
+		$scope.stringValue = sharedNodes.getString();
+
+
+		$http({method:'GET', url: $scope.url+q}).
+		success(function(data, status, headers, config) {
+			$scope.status = status;
+			$scope.data = data;
+			$scope.rawResult = data; // Show result from server in our <pre></pre> element
+			$scope.results = data.nodes; // Show result from server in our <pre></pre> element
+
+
+  
+		})
+		.
+		error(function(data, status, headers, config) {
+			$scope.data = data || "Request failed";
+			$scope.status = status;			
+		});
+	};
+});
+
+
+app.controller('modelController', function($scope, $attrs) {
+    if (!$attrs.model) throw new Error("No model for modelController");
+
+    // Initialize $scope using the value of the model attribute, e.g.,
+    $scope.url = "http://example.com/fetch?model="+$attrs.model;
+});
+
+
+
+app.controller('GetChildCtrl',function($scope, $http, sharedNodes) {
+	$scope.url = 'http://localhost:5000/api/learn/node/'; // The url of our search
+		
+	// The function that will be executed on button click (ng-click="search()")
+
+
+
+	$scope.search = function() {
+		//var parent = typeof(parent) != 'undefined' ? parent : $scope.keywords;
+		q = $scope.keywords;
+		// TODO: fix $scope.url+$scope.keywords ..
+		// Create the http get request
+		// the data holds the keywords
+		// The request is a JSON request.
+
+
+		// FROM SERVICE
+		// PARENT NODE
+		$scope.stringValue = sharedNodes.setString(q);
+		$scope.stringValue = sharedNodes.getString();
+
+		$http({method:'GET', url: $scope.url+q}).
+		success(function(data, status, headers, config) {
+			$scope.status = status;
+			$scope.data = data;
+			$scope.rawResult = data; // Show result from server in our <pre></pre> element
+			$scope.results = data.nodes; // Show result from server in our <pre></pre> element
+
+
+  
+		})
+		.
+		error(function(data, status, headers, config) {
+			$scope.data = data || "Request failed";
+			$scope.status = status;			
+		});
+	};
+});
+
+
+app.directive('search',function(){
+	return {
+		restrict: 'E',
+		transclude: false,
+		scope: {
+			searchText : '=',
+			isSearching : '='
+		},
+		controller: function($scope) {
+			$scope.localSearchText = '=';
+			$scope.clearSearch = function() {
+				$scope.searchText = "";
+				$scope.localSearchText = "";
+			};
+			$scope.doSearch = function() {
+				$scope.searchText = $scope.localSearchText;
+			};
+		},
+		replace : true,
+		template:
+		    '<form>' +
+	        '<div>' +
+	          '<input ng-model="localSearchText" type="text" />' +
+	        '</div>' +
+	        '<div>' +
+	          '<button ng-click="clearSearch()" class="btn btn-small">Clear</button>' +
+	          '<button ng-click="doSearch()"    class="btn btn-small">Search</button>' +
+	        '</div> ' +
+	        '<div ng-show="isSearching">' +
+	          '<img ng-show="isSearching" src="http://loadinggif.com/images/image-selection/3.gif" /> ' +
+	          'Searching...' +
+	        '</div>' +
+	      	'</form>'
+	     };
+})
+
+
+
+
+/**
+
+
+
+
+**/
+
+
+
+
+</script>
+
+</html> 
