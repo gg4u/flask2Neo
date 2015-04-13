@@ -97,7 +97,24 @@ exports.get_node_neighbors = function (node,_limit,_offset,completionHandler) {
 		else
 		{
 		    if ((completionHandler !== undefined) && (typeof(completionHandler) == "function"))
-				completionHandler({success:true,data:results})
+		    {
+
+		    	var _results = []
+		    	for(var i=0;i<results.length;i++) {
+
+		    		var _result = results[i]
+
+		    		var _temp = {
+		    			id:""
+		    			name:""
+		    			properties:""
+		    		}
+
+		    		_results.push(_temp)
+		    	}
+
+				completionHandler({success:true,data:_results})
+			}
 		}
 	});
 
