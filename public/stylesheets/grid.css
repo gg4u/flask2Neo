@@ -1,0 +1,39 @@
+h4 {
+  margin-top: 25px;
+}
+.row {
+  margin-bottom: 20px;
+}
+.row .row {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+[class*="col-"] {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #eee;
+  background-color: rgba(86,61,124,.15);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
+}
+
+hr {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.description-container {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+h3.title-text {
+  margin-top: 0px;
+}
+
+.thumbnail {
+  margin-bottom: 0px;
+}
+
+
+/*body { padding-top: 70px; }*/

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="Discovery">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="Hard programming">
+    <meta name="author" content="DiscoveryAD">
+    <link rel="icon" href="bootstrap/favicon.ico">
+
+    <title>Discovery UI</title>
+
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/stylesheets/grid.css" rel="stylesheet">
+
+    <script src="/angular/angular.js"></script>
+    <script src="/angular/angular-route.js"></script>
+    <script src="/angular/angular-cookies.js"></script>
+    <script src="/js/discovery.js"></script>
+  </head>
+
+  <body>
+    <div class="container" ng-controller="searchResultController">
+
+      <div class="page-header">
+        <h1>Results</h1>
+        <p class="lead">Here there are item that match your criteria.</p>
+      </div>
+
+      <div ng-repeat="currResult in searchResult" class="row">
+        <div class="col-sm-12 col-md-12">
+          <div class="thumbnail clearfix">
+            <img src="{{currResult.thumbnail}}" alt="..." class="pull-left" style="width:30%;max-width:200px;height:auto;">
+            <div class="caption pull-left description-container" style="width:70%;">
+              <h3 class="title-text">{{currResult.name}}</h3>
+              <p>{{currResult.identifier}}</p>
+              <p><a href="{{currResult.url}}" class="btn btn-primary" role="button">Button</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+</html>

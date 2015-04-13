@@ -1,5 +1,6 @@
 var express = require('express')
 var bodyParser = require('body-parser')
+var fs = require('fs')
 var expressCors = require('express-cors')
 var logger = require('morgan');
 var http = require('http');
@@ -17,6 +18,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json())
+
 app.use(expressCors({
 	allowedOrigins: ['null','http://localhost:*','http://*.xdiscovery.com:*']
 }))
@@ -24,6 +26,42 @@ app.use(expressCors({
 app.listen(app.get('port'), function () {
   	console.log('Discovery-API Server listening on port ' + app.get('port'));
 });
+
+app.use(express.static(__dirname+'/public'))
+
+app.get('/search', function (req,res,next) {
+	fs.readFile('views/search.html', function (err, data) {
+        if (err)
+        {
+            next(err);
+            return;
+        }
+        res.end(data);
+        next();
+    });
+})
+app.get('/home', function (req,res,next) {
+	fs.readFile('views/index.html', function (err, data) {
+        if (err)
+        {
+            next(err);
+            return;
+        }
+        res.end(data);
+        next();
+    });
+})
+app.get('/graph', function (req,res,next) {
+	fs.readFile('views/graph.html', function (err, data) {
+        if (err)
+        {
+            next(err);
+            return;
+        }
+        res.end(data);
+        next();
+    });
+})
 
 app.get('/api/v1/:network/node/search/', function (req,res) {
 	search_manager.search_node({
