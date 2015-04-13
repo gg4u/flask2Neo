@@ -105,8 +105,8 @@ exports.get_node_neighbors = function (node,_limit,_offset,completionHandler) {
 		    		var _result = results[i]
 
 		    		var _temp = {
-		    			id:""
-		    			name:""
+		    			id:"",
+		    			name:"",
 		    			properties:""
 		    		}
 

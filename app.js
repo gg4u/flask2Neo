@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json())
 app.use(expressCors({
-	allowedOrigins: ['null',null,'http://localhost:*','http://*.xdiscovery.com:*']
+	allowedOrigins: ['null','http://localhost:*','http://*.xdiscovery.com:*']
 }))
 
 app.listen(app.get('port'), function () {
