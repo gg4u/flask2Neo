@@ -53,7 +53,7 @@ var start = {
 // Functions to traverse the graph
 var getNodeChildren = function(graph, node_id) {
   //var apiEndpoint = 'http://107.21.230.24/api/21/';
-  var apiEndpoint = 'http://localhost:3000/api/v1/node/';
+  var apiEndpoint = 'http://localhost:3000/api/v1/1/node/';
   //var param = '/neighbors/0.jgraph';
   var param = '/neighbors';
 
@@ -75,6 +75,9 @@ var getNodeChildren = function(graph, node_id) {
     jsonpCallback: 'json',
     success: function(data) { 
       var children = data.nodes;
+
+      console.log('data getNodeChildren', data);
+      
       for (var i = 0; i < children.length; ++i){
           //IE8 could not support indexOf
           /* se non c'è il nodo, allora lo metto....

@@ -105,12 +105,14 @@ exports.get_node_neighbors = function (node,_limit,_offset,completionHandler) {
 		    		var _result = results[i]
 
 		    		var _temp = {
-		    			id:"",
-		    			name:"",
-		    			properties:""
+		    			id:_result.product.properties.id,
+		    			name:_result.product.properties.name,
+		    			properties:_result.product.properties,
+		    			proximity:_result.proximity,
 		    		}
 
-		    		_results.push(_temp)
+		    		_results.push(_temp),
+		    		console.log(_result)
 		    	}
 
 				completionHandler({success:true,data:_results})
