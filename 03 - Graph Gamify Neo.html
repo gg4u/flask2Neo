@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>01. Create Graph. Vivagraph SVG tutorial.</title>
+    <script type="text/javascript" src="../../dist/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../../dist/vivagraph.js"></script>
+
+    <script type="text/javascript">
+var start = {
+ "id": "25",
+  "name": "autism",
+ "properties": {"media": "gwj"},
+ "nodes": [
+  {
+   "id": "25",
+   "distance": 100,
+   "name": "autism",
+   "properties": {"media": "gwj"}
+  },
+  {
+   "id": "4071231",
+   "distance": 22,
+   "name": "causes of autism",
+   "properties": {}
+  },
+  {
+   "id": "37556",
+   "distance": 19,
+   "name": "asperger syndrome",
+   "properties": {"media": "9cds"}
+  },
+  {
+   "id": "29113700",
+   "distance": 15,
+   "name": "autism spectrum",
+   "properties": {"media": "2p3f5"}
+  },
+  {
+   "id": "972242",
+   "distance": 14,
+   "name": "conditions comorbid to autism spectrum disorders",
+   "properties": {"media": "3vlk_"}
+  },
+  {
+   "id": "3232713",
+   "distance": 13,
+   "name": "heritability of autism",
+   "properties": {"media": "90306"}
+  }]
+};
+
+
+// Functions to traverse the graph
+var getNodeChildren = function(graph, node_id) {
+  //var apiEndpoint = 'http://107.21.230.24/api/21/';
+  var apiEndpoint = 'http://localhost:3000/api/v1/node/';
+  //var param = '/neighbors/0.jgraph';
+  var param = '/neighbors';
+
+  var loadurl = apiEndpoint+node_id+param;
+  console.log(loadurl);
+
+  var parent = graph.getNode(node_id);
+
+  console.log(node_id);
+
+  $.ajax({
+    url: loadurl,
+    type: 'POST',
+    data: {
+      "limit":0,
+      "offset":10
+    },
+    dataType: 'json',
+    jsonpCallback: 'json',
+    success: function(data) { 
+      var children = data.nodes;
+      for (var i = 0; i < children.length; ++i){
+          //IE8 could not support indexOf
+          /* se non c'è il nodo, allora lo metto....
+          if ((map.indexOf(parseInt(children[i].id)) > -1) == false) {
+              map.push(parseInt(children[i].id));
+              graph.addNode(children[i].id, children[i]);            
+          }
+          */
+          //console.log(children[i].distance);
+          graph.addNode(children[i].id,{name: children[i].name})
+          graph.addLink(node_id, children[i].id, children[i].distance)
+         
+      };
+
+
+    }
+
+  })
+};
+
+
+// function to decorate with wikipedia
+// TODO use a callback to populate cluster of nodes, not one by one
+
+
+// Gamify: show the tap-path 
+// TODO : show the tree instead ? tap-path is simpler
+// TODO: use array or object ?
+
+
+var pushTapPath = function(node_id) {
+
+    // TODO : POST RESULT TO NEO AT THE END OF THE SESSION
+
+    tapPath.push(node_id);
+
+}
+
+
+var tapPath = []
+
+
+
+
+        function main () {
+
+            // Initialize Gamify
+            var tapPathGraph = Viva.Graph.graph();
+
+            var tapPathLayout = Viva.Graph.Layout.constant(tapPathGraph),
+                tapPathRenderer = Viva.Graph.View.renderer(tapPathGraph, {
+                                   layout  : tapPathLayout, // use our custom 'constant' layout
+                                   container : document.getElementById('tapPathContainer')
+                               });
+
+            var i, nodesCount; // convinience variables.
+
+
+
+
+            // Step 1. We create a graph object.
+            var graph = Viva.Graph.graph();
+
+            // initialize TODO replace with query
+            var data = start;
+
+            graph.addNode(data.id, {name: data.name});
+
+                pushTapPath(data.id);
+
+            var children = data.nodes;
+            for (var i = 0; i < children.length; ++i){
+                graph.addNode(children[i].id, {name: children[i].name});
+                graph.addLink(data.id, children[i].id, children[i].distance);
+            }
+
+            // end initialize graph
+            
+
+
+            var graphics = Viva.Graph.View.svgGraphics(),
+                nodeSize = 80;
+
+
+            // Step 2. Add UI and UX to nodes
+            graphics.node(function (node) {
+
+                // UI
+                console.log('name',node.data.name);
+                var nameTopic = node.data.name;
+
+                var ui = Viva.Graph.svg('g'),
+
+                    svgText = Viva.Graph.svg('text')
+                        .attr('text-anchor','middle')
+                        .attr('y', 1.2*nodeSize).text(nameTopic)
+                        .attr('x', -nodeSize/2).text(nameTopic),
+
+                    img = Viva.Graph.svg('image')
+                     .attr('width', nodeSize)
+                     .attr('height', nodeSize)
+                     .link('https://secure.gravatar.com/avatar/d43e8ea63b61e7669ded5b9d3c2e980f');
+                    
+                ui.append(svgText);
+                ui.append(img);
+
+                // UX
+                ui.addEventListener('click', function () {
+                    
+                    // pin down clicked nodes
+                    layout.pinNode(node, true);
+
+                    // call children
+                    console.log(node.id);
+                    getNodeChildren(graph, node.id);
+
+                    // gamify
+
+                                        pushTapPath(node.id);
+                    i = tapPath.length;
+                    console.log('i',i)
+                    nodesCount = tapPath.length;
+                    tapPathGraph.addNode(i, {coordinate : {x : i * 50, y: 0}})
+                    tapPathGraph.addLink(i % nodesCount, (i + 1) % nodesCount);
+                    console.log('nodeC',nodesCount);
+                    console.log('tapG',tapPathGraph);
+
+                });
+                return ui;
+            }).placeNode(function(nodeUI, pos) {
+                // 'g' element doesn't have convenient (x,y) attributes, instead
+                // we have to deal with transforms: http://www.w3.org/TR/SVG/coords.html#SVGGlobalTransformAttribute
+                nodeUI.attr('transform',
+                            'translate(' +
+                                  (pos.x - nodeSize/2) + ',' + (pos.y - nodeSize/2) +
+                            ')');
+            });
+
+
+            // Step 3. Add UI to links
+            graphics.link(function (link) {
+                var thickNess = link.data;
+
+                thickNess *= thickNess/100;
+
+                return Viva.Graph.svg('line')
+                    .attr('stroke', '#000')
+                    .attr('stroke-width', thickNess)
+            });
+
+
+            // Step 4. Render the graph.
+            var idealLength = 10;
+
+
+            var layout = Viva.Graph.Layout.forceDirected(graph, {
+               springLength : idealLength,
+               springCoeff : 0.0008,
+               dragCoeff : 0.01,
+               gravity : -1000,
+               theta: 0,
+               springTransform: function (link, spring) {
+                    //console.log('d',link.data);
+                    spring.length = 100*idealLength/(link.data*link.data);
+                    //console.log('spring',spring.length);
+                  }
+            });
+
+            // pin initial node by id
+            var initial = graph.getNode(25);
+            layout.pinNode(initial, true);
+
+            var renderer = Viva.Graph.View.renderer(graph, {
+                layout    : layout,
+                graphics  : graphics,
+                container : document.getElementById('graphContainer')
+            });
+
+            renderer.run();
+
+
+            /*
+
+            // set custom node placement callback for layout.
+                // if you don't do this, constant layout performs random positioning.
+                tapPathLayout.placeNode(function(node) {
+                    // node.id - points to its position but you can do your
+                    // random logic here. E.g. read from specific node.data
+                    // attributes. This callback is expected to return object {x : .. , y : .. }
+                    console.log('tp',node.id);
+                    return nodePositions[node.id]
+                });
+
+
+            tapPathRenderer.run();
+            */
+
+        }
+    </script>
+
+    <style type="text/css" media="screen">
+        html, body, svg, #graphContainer { 
+            width: 100%; height: 100%;
+        }
+
+        #tapPathContainer { 
+            width: 100%; height: 10%;
+            position: absolute;
+            bottom: 80%;
+            background: red;
+        }
+
+
+    </style>
+</head>
+<body onload='main()'>
+<div id='graphContainer'></div>
+
+<div id='tapPathContainer'></div>
+
+</body>
+</html>

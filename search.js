@@ -57,7 +57,8 @@ exports.user_metrics = function(_node,_user,_type,completionHandler) {
 exports.get_node = function (node,completionHandler) {
 
 	graph.cypher({
-	    query: 'MATCH (el:Product) WHERE el.identifier = {identifier} RETURN el',
+	    //query: 'MATCH (el:Product) WHERE el.identifier = {identifier} RETURN el',
+	    query: 'MATCH (el:Topic) WHERE el.id = {identifier} RETURN el',
 	    params: {
 	        identifier: node
 	    }
@@ -79,7 +80,8 @@ exports.get_node = function (node,completionHandler) {
 exports.get_node_neighbors = function (node,_limit,_offset,completionHandler) {
 
 	graph.cypher({
-	    query: 'MATCH (single:Product)-[:CORRELATO]-(product) WHERE single.identifier = {identifier} RETURN DISTINCT product SKIP {offset} LIMIT {limit}',
+	    //query: 'MATCH (single:Product)-[:CORRELATO]-(product) WHERE single.identifier = {identifier} RETURN DISTINCT product SKIP {offset} LIMIT {limit}',
+	    query: 'MATCH (single:Topic)-[rel]-(product) WHERE single.id = {identifier} RETURN DISTINCT product, rel.proximity AS proximity ORDER BY proximity DESC SKIP {offset} LIMIT {limit}' ,
 	    params: {
 	        identifier: node,
 	        limit: _limit,
