@@ -7,7 +7,7 @@ client = new es.Client;
 exports.search_node = function (terms,completionHandler)  {
 
 	client.search({
-	  	index: 'jesproduct',
+	  	index: 'learndiscovery_en',
 	  	type: 'string',
 	  	body: {
 	    	query: {
