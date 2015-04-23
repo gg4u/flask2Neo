@@ -65,7 +65,7 @@ app.get('/graph', function (req,res,next) {
 
 app.get('/api/v1/:network/node/search/', function (req,res) {
 	search_manager.search_node({
-		name:'Tavolino Pr'
+		name:'Tavolo Vic'
 	},function (data) {
 		res.json(data)
 	})

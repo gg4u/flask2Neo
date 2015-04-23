@@ -8,7 +8,7 @@ exports.search_node = function (terms,completionHandler)  {
 
 	client.search({
 	  	index: 'jesproduct',
-	  	type: 'string',
+	  	type: 'Product',
 	  	body: {
 	    	query: {
 	    		match:terms

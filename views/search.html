@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="Discovery">
 	  <head>
 	    <meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,27 +16,40 @@
 
 	    <link href="/stylesheets/grid.css" rel="stylesheet">
 
-	    <script src="/bootstrap/assets/js/ie-emulation-modes-warning.js"></script>
+	    <script src="/angular/angular.js"></script>
+	    <script src="/angular/angular-route.js"></script>
+	    <script src="/angular/angular-cookies.js"></script>
+	    <script src="/js/jquery.js"></script>
+	    <script src="/js/discovery.js"></script>
 	  </head>
 	<body>
 
 		<nav class="navbar navbar-default navbar-fixed-top">
 		  	<div class="container">
-		    ...
+		    <i class="glyphicon glyphicon-arrow-left"></i>
 		  	</div>
 		</nav>
 
-		<div class="jumbotron vertical-center">
-	      
-			<div class="input-group" style="width:100%;max-width:550px;">
-		      <input type="text" class="form-control" placeholder="Search for...">
-		      <span class="input-group-btn">
-		        <button class="btn btn-default" type="button" onclick="window.location.href='index.html';">
-		        	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-		       	</button>
-		      </span>
-		    </div>
+	    <div class="container" ng-controller="gameSelectionController" style="padding-top:30px;">
 
-		</div>
+	      	<div class="page-header">
+	        	<h1>Gioca Ora</h1>
+	        	<p class="lead">Scegli una partita e premi il pulsante Gioca Ora!</p>
+	      	</div>
+
+	        <div ng-repeat="currResult in searchResult" class="col-sm-4 col-md-4 single-game">
+	        	<div class="thumbnail play-button">
+	        		<a href="#"><img src="{{currResult.thumbnail}}"></img></a>
+	        	</div>
+	        	<br/>
+	        	<span class="title start-node" data-identifier="{{currResult.start_identifier}}">{{currResult.start_node}}</span>
+	        	<br/><br/>
+	        	<a href="#" class="btn btn-primary play-button" role="button">GIOCA ORA</a>
+	        	<br/><br/>
+	        	<span class="title end-node" data-identifier="{{currResult.end_identifier}}">{{currResult.end_node}}</span>
+	        </div>
+
+	    </div>
+
 	</body>
 </html>
