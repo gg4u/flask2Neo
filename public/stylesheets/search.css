@@ -51,6 +51,7 @@ html, body {
 }
 
 .container {
+	margin-top: 6rem;
 
 }
 
@@ -67,11 +68,12 @@ html, body {
 }
 
 .thumbnail {
-	max-width: 80%;
-	height: 140px;
+	max-width: 100%;
+	min-height: 150px;
 	margin: auto;
 	display: block;
 	margin-bottom: 20px;
+	padding:0;
 }
 
 .thumbnail > img {
@@ -88,4 +90,290 @@ html, body {
 	font-weight: bold;
 	font-size: 17px;
 	text-decoration: underline;
+}
+
+
+
+/* Styling for game-cells*/
+
+.games {
+	margin:3rem;
+	background-color: white !important;
+	padding: 0 !important;
+}
+
+.thumbnail img {
+	width : 150px;
+	height: 150px;
+}
+
+.thumbnail{
+	position: relative;
+
+}
+.start-node-mask {
+	top: 0;
+	left: 0;
+	position: absolute;
+
+}
+.discover-node-mask {
+	top: 0;
+	left: 75px;
+	position: absolute;
+}
+.end-node-mask {
+	top: 0;
+	right: 0;
+	position: absolute;
+}
+
+
+/* TODO : support Firefox and IE with SVG masking; */
+/* this is experiment to chain topics in gamification */
+/*
+.start-node-mask {
+	-webkit-clip-path: polygon(50% 0, 75% 50%, 50% 100%, 0 100%, 0 0);
+	clip-path: polygon(50% 0, 75% 50%, 50% 100%, 0 100%, 0 0);
+}
+.discover-node-mask {
+	-webkit-clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+	clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+}
+.end-node-mask {
+	-webkit-clip-path: polygon(100% 0, 100% 100%, 30% 100%, 55% 50%, 30% 0);
+	clip-path: polygon(100% 0, 100% 100%, 30% 100%, 55% 50%, 30% 0);
+}
+*/
+
+.discover-node-mask {
+	-webkit-clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+	clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+}
+
+
+.start-title::before {
+    content: "from ";
+    font-family:"Source Sans Pro","Gill-sans",sans-serif;
+    text-rendering: geometricPrecision;
+    font-size: 1.6rem;
+    color: gray;
+}
+
+.end-title::before {
+    content: "to ";
+    /* padding-top: 1rem; */
+    font-family:"Source Sans Pro","Gill-sans",sans-serif;
+    text-rendering: geometricPrecision;
+    font-size: 1.6rem;
+    color: gray;
+
+}
+
+.start-title {
+    padding-bottom: 1rem;
+}
+
+
+.end-title {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+
+.title-game {
+	font-size: 2.6rem;
+	font-family:"Source Sans Pro","Gill-sans",sans-serif;
+}
+
+.title-game::before {
+	content: '\201c';
+	font-family:"Source Sans Pro","Gill-sans",sans-serif;
+}
+
+.title-game::after {
+	content: '\201d';
+	font-family:"Source Sans Pro","Gill-sans",sans-serif;
+}
+
+
+.discover-node {
+  display: block;
+  margin: -1.4rem;
+}
+
+.grey {
+	color: grey;
+}
+
+.lightgrey{
+	color:lightgray;
+}
+
+
+.play-button {
+    padding:0.5rem;
+    -webkit-border-radius: 5rem;
+  -moz-border-radius: 0.5rem;
+border-radius: 0.5rem;
+    background: -moz-linear-gradient(top, #f6e6b4 0%, #ed9017 100%); /* firefox */
+    border: solid #f5f5f5 3px;
+
+
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0067b4 ), color-stop(100%,#2577b4 ));
+ /* webkit */
+font-size:2rem;
+
+font-family:"Gill","Gill-sans","Arial";
+
+letter-spacing: 0.1rem;
+
+}
+
+.play-button:hover {
+
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0079d3  ), color-stop(100%,#2c8dd5  ));
+
+}
+
+
+
+/* backgrounds */
+.intro-background {
+position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+ z-index: -1;
+ opacity: 0.5;
+
+   -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  -o-filter: blur(3px);
+  -ms-filter: blur(3px);
+  filter: blur(3px);
+}
+.intro-background img {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  margin: auto; 
+  min-width: 50%;
+  min-height: 50%;
+}
+
+
+/* font */
+
+h1,h2,h3,h4,h5,h6{
+	font-family:"Source Sans Pro","Gill-sans",sans-serif;
+	font-weight:400;
+	font-style:normal;
+	color:#222;
+	text-rendering:optimizeLegibility;
+}
+
+h1 {
+	font-size: 4rem;
+	background-color: #0065b7;
+	display: inline;
+	color: white;
+}
+
+.emphasize {
+	color:#0065b7;
+	font-size: 120%;
+}
+
+
+/* graph background */
+   #intro-background, svg {
+                height: 100%;
+                width: 100%;
+                position: fixed;
+                margin: 0;
+                pointer-events: none;
+                z-index: 0;            
+            }
+
+        #intro-background {
+        	 -webkit-animation: fadein 5s; /* Safari, Chrome and Opera > 12.1 */
+		       -moz-animation: fadein 5s; /* Firefox < 16 */
+		        -ms-animation: fadein 5s; /* Internet Explorer */
+		         -o-animation: fadein 5s; /* Opera < 12.1 */
+		            animation: fadein 5s;
+        }
+
+        @keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+           .container, .navbar {
+           	z-index: 3;
+           } 
+
+
+
+/* navbar and logos */
+
+.LearnDiscovery_Logo {
+	width:250px;
+	height: 37px;
+}
+
+.emphasize-red {
+	color: red;
+	font-style: italic;
+}
+
+.emphasize-white {
+	color: white;
+	font-size: 120%;
+}
+
+h4 {
+  margin-top: 0 !important;
+}
+
+.navbar h3, h4{
+	margin-left: 20px;
+	color: #66ff00;
+	font-family: "Courier";
+}
+
+.navbar {
+	background-color : #1c1c1c;
+	zoom: 70%;
+}
+
+.page-header{
+	border-color: #0065b7 !important;
 }

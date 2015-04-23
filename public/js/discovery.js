@@ -58,7 +58,7 @@ discovery.controller('gameSelectionController', function($scope, $routeParams, N
 	{	
 		start_node: "Titolo 1",
 		end_node: "Titolo 2",
-		start_identifier: "100",
+		start_identifier: "25",
 		end_identifier: "200",
 		thumbnail:""
 	},{	

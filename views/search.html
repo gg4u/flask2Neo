@@ -10,7 +10,7 @@
 	    <link rel="icon" href="bootstrap/favicon.ico">
 
 	    <title>Grid Template for Bootstrap</title>
-
+	    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400" rel="stylesheet" type="text/css">
 	    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	    <link href="/stylesheets/search.css" rel="stylesheet">
 
@@ -21,32 +21,168 @@
 	    <script src="/angular/angular-cookies.js"></script>
 	    <script src="/js/jquery.js"></script>
 	    <script src="/js/discovery.js"></script>
+	    <script src="/js/vivagraph.min.js"></script>
+	    <!--
+	     <script type='text/javascript'>
+            /*global Viva*/
+            function onLoad() {
+                var graphGenerator = Viva.Graph.generator();
+
+                //var graph = graphGenerator.grid(10, 10);
+
+               	//var graph = graphGenerator.randomNoLinks(500);
+                //var graph = graphGenerator.completeBipartite(10, 100);
+                //var graph = graphGenerator.complete(100);
+                var graph = graphGenerator.balancedBinTree(9);
+                //var graph = graphGenerator.ladder(100);
+
+               	var nodeSize = 8;
+
+                var layout = Viva.Graph.Layout.forceDirected(graph, {
+                   springLength : 200,
+                   springCoeff : 0.0008,
+                   dragCoeff : 0.002,
+                   theta : 5,
+                   timeStep : 0.8,
+                   stableThreshold: 1,
+                   gravity : -5
+                });
+
+                // run layout for as many iterations as we want:
+		        for (var i = 0; i < 1000; ++i) {
+		          layout.step();
+		        }
+
+                var graphics = Viva.Graph.View.svgGraphics();
+                var geom = Viva.Graph.geom();
+
+                graphics.node(function(node) {
+ 					var ui = Viva.Graph.svg('svg'),
+		              	circle = Viva.Graph.svg('circle')
+	                     .attr('cx', nodeSize)
+	                     .attr('cy', nodeSize)
+	                     .attr('r', nodeSize)
+	                     .attr('stroke', "rgba(23,23,23,0.4)")
+	                     .attr('fill', "rgba(204,204,204,0.1)");
+
+	                ui.append(circle);
+              		return ui;
+
+		        });
+
+		        graphics.placeNode(function(nodeUI, pos) {
+	                nodeUI.attr('x', pos.x -  nodeSize).attr('y', pos.y - nodeSize);
+	            });
+
+	            // Step 4. Customize link appearance:
+            //   As you might have guessed already the link()/placeLink()
+            //   functions complement the node()/placeNode() functions
+            //   and let us override default presentation of edges:
+            graphics.link(function(link){
+                return Viva.Graph.svg('path')
+                           .attr('stroke', "rgba(23,23,23,0.2)");
+            }).placeLink(function(linkUI, fromPos, toPos) {
+                // linkUI - is the object returend from link() callback above.
+                var data = 'M' + fromPos.x  + ',' + fromPos.y + 
+                           'L' + toPos.x +  ',' + toPos.y ;
+                // 'Path data' (http://www.w3.org/TR/SVG/paths.html#DAttribute )
+                // is a common way of rendering paths in SVG:
+                linkUI.attr("d", data);
+            });
+
+                var renderer = Viva.Graph.View.renderer(graph, {
+                		container  : document.getElementById('intro-background'),
+                        layout     : layout,
+                        graphics   : graphics,
+                        renderLinks : true,
+            			prerender  : true
+                    });
+
+                renderer.run();
+
+                setTimeout(function(){ renderer.pause(); }, 10000);
+
+
+
+            }
+
+
+
+      
+        </script>
+
+        -->
+
+        <style>
+      
+        </style>
+
+
 	  </head>
-	<body>
+	<body onload="onLoad()">
+
+	<div class="intro-background">
+		<img src="/static/discover_1350x900_grey.jpg" alt="">
+	</div>
+
+<!--
+	<div id="intro-background">
+		
+	</div>
+
+	-->
 
 		<nav class="navbar navbar-default navbar-fixed-top">
-		  	<div class="container">
-		    <i class="glyphicon glyphicon-arrow-left"></i>
-		  	</div>
+		  	<div>
+		    <!--<i class="glyphicon glyphicon-arrow-left"></i>-->
+    <!--<img itemprop="image" src="static/LD_icon_144.png" width="40px" height="40px">
+	
+
+		<svg class="LearnDiscovery_Logo" width="250" height="37">
+		  <image itemprop="image" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="static/LearnDiscovery_Logo.svg" src="static/LearnDiscovery_Logo.png" width="100%" height="100%"></image>
+		</svg>
+
+		--> 
+		<h3>project-code | HCK-HMN-KNWLG <span class="emphasize-red">CLASSIFIED</span></h3>
+		<h4>Portable-Discovery-Engine | <span class="emphasize-white"> LEARN DISCOVERY - #Mindmap #Wikipedia</span> for iOS</h4>
+
+
 		</nav>
 
 	    <div class="container" ng-controller="gameSelectionController" style="padding-top:30px;">
 
 	      	<div class="page-header">
-	        	<h1>Gioca Ora</h1>
-	        	<p class="lead">Scegli una partita e premi il pulsante Gioca Ora!</p>
+	        	<h1>HACK THE HUMAN KNOWLEDGE!!</h1>
+	        	<h2>Why two arguments are linked?</h2>
+	        	<h3>The <span class="emphasize">answer</span> is in the path: get it as <span class="emphasize">fast</span> as possible!</h3>
+	        	<p class="lead">Challenge mankind and choose your game!</p>
 	      	</div>
 
-	        <div ng-repeat="currResult in searchResult" class="col-sm-4 col-md-4 single-game">
-	        	<div class="thumbnail play-button">
+	        <div ng-repeat="currResult in searchResult" class="games col-sm-3 col-md-3 single-game">
+	        	<div class="thumbnail">
+	        		<a href="#"><img class="start-node-mask" src="http://bennettfeely.com/clippy/pics/pittsburgh.jpg" width="568"></img></a>
+	        		<a href="#"><img class="end-node-mask" src="http://bennettfeely.com/clippy/pics/sparkler.jpg" width="568"></img></a>
+	        		<a href="#"><img class="discover-node-mask" src="http://bennettfeely.com/clippy/pics/fierenze.jpg" width="568"></img></a>
 	        		<a href="#"><img src="{{currResult.thumbnail}}"></img></a>
 	        	</div>
 	        	<br/>
-	        	<span class="title start-node" data-identifier="{{currResult.start_identifier}}">{{currResult.start_node}}</span>
+	        	<div class="start-title">
+	        	<span class="title-game start-node" data-identifier="{{currResult.start_identifier}}">{{currResult.start_node}}</span>
+	        	</div>
+
+				<span class="discover-node lightgrey">°</span>
+				<span class="discover-node grey">°</span>
+				<span class="discover-node">°</span>
+				<span class="discover-node">▼</span>
+
+
+
+
+	        	<div class="end-title">
+	        	<span class="title-game end-node" data-identifier="{{currResult.end_identifier}}">{{currResult.end_node}}</span>
+	        	</div>
+	        	<a href="#" class="btn btn-primary play-button" role="button">PLAY</a>
 	        	<br/><br/>
-	        	<a href="#" class="btn btn-primary play-button" role="button">GIOCA ORA</a>
-	        	<br/><br/>
-	        	<span class="title end-node" data-identifier="{{currResult.end_identifier}}">{{currResult.end_node}}</span>
 	        </div>
 
 	    </div>
