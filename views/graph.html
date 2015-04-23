@@ -2,8 +2,73 @@
 <html>
 <head>
     <title>01. Create Graph. Vivagraph SVG tutorial.</title>
+    <link href='http://fonts.googleapis.com/css?family=Orbitron:900' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/vivagraph.min.js"></script>
+
+    <script language="JavaScript">
+<!--
+var startTime = 0
+var start = 0
+var end = 0
+var diff = 0
+var timerID = 0
+function chrono(){
+  end = new Date()
+  diff = end - start
+  diff = new Date(diff)
+  var msec = diff.getMilliseconds()
+  var sec = diff.getSeconds()
+  var min = diff.getMinutes()
+  var hr = diff.getHours()-1
+  if (min < 10){
+    min = "0" + min
+  }
+  if (sec < 10){
+    sec = "0" + sec
+  }
+  if(msec < 10){
+    msec = "00" +msec
+  }
+  else if(msec < 100){
+    msec = "0" +msec
+  }
+  document.getElementById("chronotime").innerHTML = hr + ":" + min + ":" + sec + ":" + msec
+  timerID = setTimeout("chrono()", 10)
+}
+function chronoStart(){
+  document.chronoForm.startstop.value = "stop!"
+  document.chronoForm.startstop.onclick = chronoStop
+  document.chronoForm.reset.onclick = chronoReset
+  start = new Date()
+  chrono()
+}
+function chronoContinue(){
+  document.chronoForm.startstop.value = "stop!"
+  document.chronoForm.startstop.onclick = chronoStop
+  document.chronoForm.reset.onclick = chronoReset
+  start = new Date()-diff
+  start = new Date(start)
+  chrono()
+}
+function chronoReset(){
+  document.getElementById("chronotime").innerHTML = "0:00:00:000"
+  start = new Date()
+}
+function chronoStopReset(){
+  document.getElementById("chronotime").innerHTML = "0:00:00:000"
+  document.chronoForm.startstop.onclick = chronoStart
+}
+function chronoStop(){
+  document.chronoForm.startstop.value = "start!"
+  document.chronoForm.startstop.onclick = chronoContinue
+  document.chronoForm.reset.onclick = chronoStopReset
+  clearTimeout(timerID)
+}
+//-->
+</script>
+
+
 
     <script type="text/javascript">
 var start = {
@@ -161,6 +226,8 @@ var tapPath = 0
             graph.addNode(data.id, {name: data.name});
 
             // initialize gamify
+
+            chronoStart()
             /*
             tapPathGraph.addNode(i,{name: data.name, coordinate: {x : 0, y: 0}});
             console.log('start',tapPathGraph.getNode(i));
@@ -249,7 +316,7 @@ var tapPath = 0
                 ui.addEventListener('click', function () {
                     
                     // pin down clicked nodes
-                    layout.pinNode(node, true);
+                    //layout.pinNode(node, true);
 
                     // pagination
                     limit += 6;
@@ -322,8 +389,8 @@ var tapPath = 0
             });
 
             // pin initial node by id
-            var initial = graph.getNode(25);
-            layout.pinNode(initial, true);
+            //var initial = graph.getNode(25);
+            //layout.pinNode(initial, true);
 
             // gamify
             //tapPathGraph.addNode(0, {coordinate : {x : 0, y: 0}})
@@ -380,13 +447,26 @@ var tapPath = 0
             
         }
 
+        #chronotime {
+          font-family: "Orbitron";
+          font-size: 2rem;
+          font-style: italic;
+        }
 
     </style>
 </head>
 <body onload='main()'>
+
+<span id="chronotime">0:00:00:00</span>
+<form name="chronoForm">
+    <input type="button" name="startstop" value="start!" onClick="chronoStart()" />
+    <input type="button" name="reset" value="reset!" onClick="chronoReset()" />
+</form>
 <div id='graphContainer'></div>
 
 <div id='tapPathContainer'></div>
+
+
 
 </body>
 </html>
