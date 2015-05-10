@@ -1,0 +1,82 @@
+.sub-nav {
+    display: block;
+    width: auto;
+    overflow: hidden;
+    margin: 0;
+    padding-top: 0;
+    margin-right: 0;
+    margin-left:-.75rem;
+}
+
+.close-button {
+    background: url(../images/close-button.svg) no-repeat center center;
+    width: 20px;
+    height: 20px;
+    display: block;
+    overflow: hidden;
+    text-indent: -2000px;
+    position: absolute;
+    right: 0;
+    margin: 1em;
+    z-index: 1;
+}
+
+.hide-details {
+    display: none;
+}
+
+.viva-graph-detail-pane {
+    padding: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    z-index: 2000;
+    width: 100%
+}
+
+.viva-graph-detail-pane>.content {
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    height: 100%;
+    background: #fff;
+    border: 1px solid #eee;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch
+}
+
+@media only screen and (min-width:40.063em) {
+    .viva-graph-detail-pane {
+        padding: 76px 0 0;
+        width: 40%;
+        z-index: 1
+    }
+
+    .viva-graph-detail-pane>.content {
+        -ms-border-radius: 0;
+        -o-border-radius: 0;
+        border-radius: 0
+    }
+}
+
+.viva-graph-detail-pane .sub-nav {
+    margin-top: -1rem;
+    padding-top: 2.3rem;
+    border-bottom: solid 1px #d3d3d3;
+    position: fixed;
+    width: 98%;
+    background: #fff;
+    z-index: 1
+}
+
+.viva-graph-detail-pane .close-button {
+    margin-top: 1.6rem;
+    z-index: 2
+}
+
+h2.ng-binding {
+    padding-top:3rem
+}

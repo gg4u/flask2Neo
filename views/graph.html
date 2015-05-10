@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>01. Create Graph. Vivagraph SVG tutorial.</title>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href='/stylesheets/details.css' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Orbitron:900' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/vivagraph.min.js"></script>
@@ -72,45 +74,21 @@ function chronoStop(){
 
     <script type="text/javascript">
 var start = {
- "id": "25",
+ "id": "2680",
   "name": "autism",
  "properties": {"media": "gwj"},
  "nodes": [
   {
-   "id": "25",
-   "distance": 100,
-   "name": "autism",
-   "properties": {"media": "gwj"}
-  },
-  {
-   "id": "4071231",
-   "distance": 22,
-   "name": "causes of autism",
-   "properties": {}
-  },
-  {
-   "id": "37556",
+   "id": "2680",
    "distance": 19,
    "name": "asperger syndrome",
    "properties": {"media": "9cds"}
   },
   {
-   "id": "29113700",
+   "id": "2189",
    "distance": 15,
    "name": "autism spectrum",
    "properties": {"media": "2p3f5"}
-  },
-  {
-   "id": "972242",
-   "distance": 14,
-   "name": "conditions comorbid to autism spectrum disorders",
-   "properties": {"media": "3vlk_"}
-  },
-  {
-   "id": "3232713",
-   "distance": 13,
-   "name": "heritability of autism",
-   "properties": {"media": "90306"}
   }]
 };
 
@@ -152,8 +130,8 @@ var getNodeChildren = function(graph, node_id, limit) {
           }
           */
           //console.log(children[i].distance);
-          graph.addNode(children[i].id,{name: children[i].name})
-          graph.addLink(node_id, children[i].id, children[i].proximity)
+          graph.addNode(children[i].properties.identifier,{thumbnail:children[i].properties.thumbnail,name: children[i].properties.name})
+          graph.addLink(node_id, children[i].properties.identifier, 100)
          
       };
 
@@ -227,7 +205,7 @@ var tapPath = 0
 
             // initialize gamify
 
-            chronoStart()
+            // chronoStart()
             /*
             tapPathGraph.addNode(i,{name: data.name, coordinate: {x : 0, y: 0}});
             console.log('start',tapPathGraph.getNode(i));
@@ -235,7 +213,7 @@ var tapPath = 0
 
             var children = data.nodes;
             for (var i = 0; i < children.length; ++i){
-                graph.addNode(children[i].id, {name: children[i].name});
+                graph.addNode(children[i].id, {thumbnail:children[i].thumbnail,name: children[i].name});
                 graph.addLink(data.id, children[i].id, children[i].distance);
             }
 
@@ -288,6 +266,7 @@ var tapPath = 0
                 // UI
                 //console.log('name',node.data.name);
                 var nameTopic = node.data.name;
+                console.log(node)
 
                 var ui = Viva.Graph.svg('g'),
 
@@ -301,7 +280,8 @@ var tapPath = 0
                      .attr('height', nodeSize)
                      .attr('x', -nodeSize/2)
                      .attr('y', 0)
-                     .link('https://secure.gravatar.com/avatar/d43e8ea63b61e7669ded5b9d3c2e980f');
+                     .link(node.data.thumbnail||"http://localhost:3000/images/logo.png");
+                     // https://secure.gravatar.com/avatar/d43e8ea63b61e7669ded5b9d3c2e980f
                     
 
 
@@ -324,6 +304,8 @@ var tapPath = 0
                     // call children
                     console.log(node.id);
                     getNodeChildren(graph, node.id, limit);
+
+                    $(".viva-graph-detail-pane").removeClass("hide-details")
 
                     // gamify
                     /*
@@ -405,29 +387,14 @@ var tapPath = 0
 
         
            renderer.run();
-          
-
-
-            
-            // gamify
-            // set custom node placement callback for layout.
-
-            /*
-
-            tapPathLayout.placeNode(function(node) {
-                console.log('tapnode coord', node.data.coordinate)
-                return node.data.coordinate; 
-            });
-
-            var tapPathRenderer = Viva.Graph.View.renderer(tapPathGraph, { 
-              layout: tapPathLayout,
-              graphics : tapPathGraphics,
-              container : document.getElementById('tapPathContainer') });
-
-            tapPathRenderer.run();
-            */
 
         }
+
+        $(document).on("click",".close-button",function() {
+          $(".viva-graph-detail-pane").addClass("hide-details")
+          $(".viva-graph-detail-pane > .full-content").children().remove()
+          return false;
+        })
     </script>
 
     <style type="text/css" media="screen">
@@ -457,16 +424,23 @@ var tapPath = 0
 </head>
 <body onload='main()'>
 
-<span id="chronotime">0:00:00:00</span>
+<!-- <span id="chronotime">0:00:00:00</span>
 <form name="chronoForm">
     <input type="button" name="startstop" value="start!" onClick="chronoStart()" />
     <input type="button" name="reset" value="reset!" onClick="chronoReset()" />
-</form>
+</form> -->
 <div id='graphContainer'></div>
 
 <div id='tapPathContainer'></div>
 
-
+<section class="viva-graph-detail-pane ng-scope hide-details">
+  <a href="#" class="close-button"></a>
+  <div class="content row">
+    <div class="small-12 columns full-content">
+      That's all folks
+    </div>
+  </div>
+</section>
 
 </body>
 </html>
