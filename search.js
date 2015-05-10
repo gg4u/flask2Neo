@@ -1,7 +1,7 @@
 var es = require("elasticsearch")
 var neo4j = require('neo4j');
 
-graph = new neo4j.GraphDatabase('http://localhost:7474');
+graph = new neo4j.GraphDatabase('http://vps.bitrace.co:7474');
 client = new es.Client;
 
 exports.search_node = function (terms,completionHandler)  {
