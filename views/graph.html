@@ -120,7 +120,7 @@ var getNodeChildren = function(graph, node_id, limit) {
     type: 'POST',
     data: {
       "limit": limit, // quanti ne voglio
-      "offset":(counter*limit) // da dove voglio
+      "offset":0 // da dove voglio
     },
     dataType: 'json',
     jsonpCallback: 'json',
