@@ -138,7 +138,7 @@ var getNodeChildren = function(graph, node_id, limit) {
           }
           */
           //console.log(children[i].distance);
-          graph.addNode(children[i].properties.identifier,{thumbnail:children[i].properties.thumbnail,name: children[i].properties.name})
+          graph.addNode(children[i].properties.identifier,{description:children[i].properties.description,thumbnail:children[i].properties.thumbnail,name: children[i].properties.name})
           graph.addLink(node_id, children[i].properties.identifier, 100)
          
       };
@@ -221,7 +221,7 @@ var tapPath = 0
 
             var children = data.nodes;
             for (var i = 0; i < children.length; ++i){
-                graph.addNode(children[i].id, {thumbnail:children[i].thumbnail,name: children[i].name});
+                graph.addNode(children[i].id, {description:children[i].description,thumbnail:children[i].thumbnail,name: children[i].name});
                 graph.addLink(data.id, children[i].id, children[i].distance);
             }
 
@@ -317,7 +317,7 @@ var tapPath = 0
                       else
                         $(".viva-graph-detail-pane").addClass("hide-details")
 
-                      $(".viva-graph-detail-pane").find(".full-content").eq(0).html(node.data.description)
+                      $(".full-content").html(node.data.description)
                       //Apri
                     }
 
