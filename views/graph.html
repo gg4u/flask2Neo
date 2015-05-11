@@ -313,9 +313,9 @@ var tapPath = 0
                     else if (window.clicked === node.id)
                     {
                       if ($(".viva-graph-detail-pane").hasClass("hide-details"))
-                        $(".viva-graph-detail-pane").addClass("hide-details")
-                      else
                         $(".viva-graph-detail-pane").removeClass("hide-details")
+                      else
+                        $(".viva-graph-detail-pane").addClass("hide-details")
 
                       $(".viva-graph-detail-pane").find(".full-content").eq(0).html(node.data.description)
                       //Apri
