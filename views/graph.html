@@ -92,14 +92,14 @@ var start = {
   }]
 };
 
-
+var counter = 0;
 // Functions to traverse the graph
 var getNodeChildren = function(graph, node_id, limit) {
   //var apiEndpoint = 'http://107.21.230.24/api/21/';
   var apiEndpoint = 'http://adgraph.herokuapp.com/api/v1/1/node/';
   //var param = '/neighbors/0.jgraph';
   var param = '/neighbors';
-
+  counter++;
   var loadurl = apiEndpoint+node_id+param;
   console.log(loadurl);
 
@@ -112,7 +112,7 @@ var getNodeChildren = function(graph, node_id, limit) {
     type: 'POST',
     data: {
       "limit": limit, // quanti ne voglio
-      "offset":0 // da dove voglio
+      "offset":(counter*limit) // da dove voglio
     },
     dataType: 'json',
     jsonpCallback: 'json',
@@ -299,11 +299,10 @@ var tapPath = 0
                     //layout.pinNode(node, true);
 
                     // pagination
-                    limit += 6;
 
                     // call children
                     console.log(node.id);
-                    getNodeChildren(graph, node.id, limit);
+                    getNodeChildren(graph, node.id, 2);
 
                     // $(".viva-graph-detail-pane").removeClass("hide-details")
 
