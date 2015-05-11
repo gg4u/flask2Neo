@@ -73,21 +73,29 @@ function chronoStop(){
 
 
     <script type="text/javascript">
+
+    var start = {
+
+    }
+    $(document).ready(function() {
+      main()
+    })
+
 var start = {
  "id": "2680",
   "name": "autism",
  "properties": {"media": "gwj"},
  "nodes": [
   {
-   "id": "2680",
+   "id": "1142",
    "distance": 19,
-   "name": "asperger syndrome",
+   "name": "categoria1",
    "properties": {"media": "9cds"}
   },
   {
-   "id": "2189",
+   "id": "1139",
    "distance": 15,
-   "name": "autism spectrum",
+   "name": "categoria2",
    "properties": {"media": "2p3f5"}
   }]
 };
@@ -298,13 +306,24 @@ var tapPath = 0
                     // pin down clicked nodes
                     //layout.pinNode(node, true);
 
-                    // pagination
+                    if ((window.clicked === undefined)||(window.clicked !== node.id))
+                    {
+                      window.clicked = node.id
+                    }
+                    else if (window.clicked === node.id)
+                    {
+                      if ($(".viva-graph-detail-pane").hasClass("hide-details"))
+                        $(".viva-graph-detail-pane").addClass("hide-details")
+                      else
+                        $(".viva-graph-detail-pane").removeClass("hide-details")
+
+                      $(".viva-graph-detail-pane").find(".full-content").eq(0).html(node.data.description)
+                      //Apri
+                    }
 
                     // call children
                     console.log(node.id);
                     getNodeChildren(graph, node.id, 2);
-
-                    // $(".viva-graph-detail-pane").removeClass("hide-details")
 
                     // gamify
                     /*
@@ -421,7 +440,7 @@ var tapPath = 0
 
     </style>
 </head>
-<body onload='main()'>
+<body>
 
 <!-- <span id="chronotime">0:00:00:00</span>
 <form name="chronoForm">
