@@ -26,7 +26,7 @@ var counter = 0;
 // Functions to traverse the graph
 var getNodeChildren = function(graph, node_id, limit) {
   //var apiEndpoint = 'http://107.21.230.24/api/21/';
-  var apiEndpoint = 'http://localhost:3000/api/v1/1/node/';
+  var apiEndpoint = 'http://adgraph.herokuapp.com/api/v1/1/node/';
   //var param = '/neighbors/0.jgraph';
   var param = '/neighbors';
   counter++;
@@ -115,7 +115,7 @@ var tapPath = 0
                      .attr('height', nodeSize)
                      .attr('x', -nodeSize/2)
                      .attr('y', 0)
-                     .link(node.data.thumbnail||"http://localhost:3000/images/logo.png");
+                     .link(node.data.thumbnail||"http://adgraph.herokuapp.com/images/logo.png");
                      // https://secure.gravatar.com/avatar/d43e8ea63b61e7669ded5b9d3c2e980f
 
                 ui.append(svgText);
