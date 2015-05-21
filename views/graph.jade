@@ -1,0 +1,32 @@
+html(ng-app="InterwindLearning")
+	head
+		title #{title}
+
+		link(href="/bootstrap/css/bootstrap.min.css",rel="stylesheet")
+		link(href='/stylesheets/details.css',rel='stylesheet',type='text/css')
+		link(href='/stylesheets/graph.css',rel='stylesheet',type='text/css')
+		
+		link(href='/stylesheets/vex/vex.css',rel='stylesheet',type='text/css')
+		link(href='/stylesheets/vex/vex-theme-plain.css',rel='stylesheet',type='text/css')
+		//- link(href='http://fonts.googleapis.com/css?family=Orbitron:900',rel='stylesheet',type='text/css')
+
+		script(src="/js/jquery.js")
+
+		script(src='/js/vex.combined.min.js')
+		script
+			| vex.defaultOptions.className = 'vex-theme-plain';
+
+		script(src="/js/vivagraph.min.js")
+		script(src="/js/graph.js")
+
+	body
+		div#graphContainer
+
+		div#tapPathContainer
+
+		section.viva-graph-detail-pane.ng-scope.hide-details
+			a.close-button(href="#",class="")
+			
+			div.content.row
+				div.small-12.columns.full-content
+					| That's all folks

@@ -15,7 +15,7 @@ discovery.factory("NodeManager", function($http) {
 
 	game_instance.get = function(id,completionHandler) {
 		//Here make get of news
-		$http.get('http://adgraph.herokuapp.com/api/v1/1/node/'+id).success(function(result) {
+		$http.get('http://localhost:3000/api/v1/1/node/'+id).success(function(result) {
 			if(result.success)
 			  	completionHandler(result.data)
 			else
@@ -25,7 +25,7 @@ discovery.factory("NodeManager", function($http) {
 
 	game_instance.neighborgs = function(id,_limit,_offset,completionHandler) {
 		//Here make get of news
-		$http.post('http://adgraph.herokuapp.com/api/v1/1/node/'+id+'/neighborgs',{
+		$http.post('http://localhost:3000/api/v1/1/node/'+id+'/neighborgs',{
 			limit:_limit,
 			offset:_offset
 		}).success(function(result) {
@@ -38,7 +38,7 @@ discovery.factory("NodeManager", function($http) {
 
 	game_instance.user_metrics = function(id,_limit,_offset,completionHandler) {
 		//Here make get of news
-		$http.post('http://adgraph.herokuapp.com/api/v1/1/node/'+id+'/user',{
+		$http.post('http://localhost:3000/api/v1/1/node/'+id+'/user',{
 			limit:_limit,
 			offset:_offset
 		}).success(function(result) {
